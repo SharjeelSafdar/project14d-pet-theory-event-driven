@@ -57,7 +57,7 @@ export class ServicesStack extends cdk.Stack {
     });
 
     myRestAPI.root.addCorsPreflight({
-      allowOrigins: ["https://cloudfront.net"],
+      allowOrigins: ["*"],
       allowMethods: ["POST"],
     });
     myRestAPI.root.addMethod("POST", eventBridgeInteg, {
