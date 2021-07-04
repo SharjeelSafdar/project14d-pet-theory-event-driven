@@ -1,0 +1,74 @@
+name: Deploy Event Driven Architecture with ApiGateway, EventBridge and SNS
+env:
+  owner: SharjeelSafdar
+  repo: project14d-pet-theory-event-driven
+
+# Controls when the action will run. Triggers the workflow on
+# 1) push event for main branch
+# 2) pull_request generated on main branch
+# 3) It's triggered only by changes in relavent files in backend/ directory
+on:
+  push:
+    branch: [main]
+    paths-ignore:
+      - "README.md"
+      - "client/**"
+      - "backend/lib/p14d-frontend-deploy-stack.ts"
+      - "backend/test/p14d-frontend-deploy-stack.test.ts"
+      - "backend/.gitignore"
+      - "backend/.npmignore"
+      - "backend/README.md"
+      - ".github/workflows/deployFrontendBucketAndDist.yml"
+      - ".github/workflows/deployGatsbyAppToS3.yml"
+  pull_request:
+    branch: [main]
+    paths-ignore:
+      - "README.md"
+      - "client/**"
+      - "backend/lib/p14d-frontend-deploy-stack.ts"
+      - "backend/test/p14d-frontend-deploy-stack.test.ts"
+      - "backend/.gitignore"
+      - "backend/.npmignore"
+      - "backend/README.md"
+      - ".github/workflows/deployFrontendBucketAndDist.yml"
+      - ".github/workflows/deployGatsbyAppToS3.yml"
+
+jobs:
+  Deploy_Backend_Services:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout the Repository
+        uses: actions/checkout@v2
+
+      - name: Install NodeJS
+        uses: actions/setup-node@v2
+        with: { node-version: "14.15.0" }
+
+      - name: Install Dependencies for CDK App
+        uses: bahmutov/npm-install@v1
+        with:
+          working-directory: backend
+
+      - name: Build CDK App with TypeScript Compiler
+        working-directory: backend
+        run: npm run build
+
+      - name: Run Tests with Jest
+        working-directory: backend
+        run: npm run test test/p14d-backend-services-stack.test.ts
+
+      - name: Deploy Backend-Services-Stack to AWS CloudFormation
+        uses: docker://kikemnzz/automate-cdk-github-action-kmzz:v1.0.0
+        with:
+          cdk_version: 1.111.0
+          cdk_action: deploy
+          cdk_stack: P14dBackendServicesStack
+          cdk_stack_directory: backend
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_PROJECT_REGION }}
