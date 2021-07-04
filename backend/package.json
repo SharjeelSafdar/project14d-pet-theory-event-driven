@@ -22,9 +22,12 @@
   },
   "dependencies": {
     "@aws-cdk/aws-apigateway": "^1.111.0",
+    "@aws-cdk/aws-cloudfront": "^1.111.0",
+    "@aws-cdk/aws-cloudfront-origins": "^1.111.0",
     "@aws-cdk/aws-events": "^1.111.0",
     "@aws-cdk/aws-events-targets": "^1.111.0",
     "@aws-cdk/aws-iam": "^1.111.0",
+    "@aws-cdk/aws-s3": "^1.111.0",
     "@aws-cdk/aws-sns": "^1.111.0",
     "@aws-cdk/aws-sns-subscriptions": "^1.111.0",
     "@aws-cdk/aws-sqs": "^1.111.0",
