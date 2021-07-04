@@ -31,7 +31,7 @@ export class ServicesStack extends cdk.Stack {
 
     const myRestAPI = new apigw.RestApi(this, "MyRestAPI");
 
-    const options = {
+    const options: apigw.IntegrationOptions = {
       credentialsRole: apigwRole,
       requestParameters: {
         "integration.request.header.X-Amz-Target": "'AWSEvents.PutEvents'",
@@ -56,6 +56,10 @@ export class ServicesStack extends cdk.Stack {
       options,
     });
 
+    myRestAPI.root.addCorsPreflight({
+      allowOrigins: ["https://cloudfront.net"],
+      allowMethods: ["POST"],
+    });
     myRestAPI.root.addMethod("POST", eventBridgeInteg, {
       methodResponses: [{ statusCode: "200" }],
     });
