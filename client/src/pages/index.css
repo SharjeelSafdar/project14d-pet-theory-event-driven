@@ -1,0 +1,34 @@
+.container {
+  display: grid;
+  place-items: center;
+}
+
+form {
+  width: 90vw;
+  max-width: 600px;
+}
+
+input,
+label,
+button {
+  display: block;
+  width: 100%;
+  border-radius: 5px;
+  height: 2.5em;
+}
+
+input:focus {
+  border-color: rebeccapurple;
+  color: rebeccapurple;
+}
+
+button {
+  background-color: rebeccapurple;
+  color: white;
+  cursor: pointer;
+}
+
+button:disabled {
+  background-color: rgb(70, 34, 105);
+  cursor: not-allowed;
+}
