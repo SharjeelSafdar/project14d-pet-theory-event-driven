@@ -30,7 +30,7 @@ export class ServicesStack extends cdk.Stack {
     );
 
     const myRestAPI = new apigw.RestApi(this, "MyRestAPI");
-    const allowOrigin = "https://dv0uvvryjj7u9.cloudfront.net/";
+    const allowOrigin = "https://dv0uvvryjj7u9.cloudfront.net";
 
     const options: apigw.IntegrationOptions = {
       credentialsRole: apigwRole,
