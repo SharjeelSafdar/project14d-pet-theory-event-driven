@@ -30,6 +30,7 @@ export class ServicesStack extends cdk.Stack {
     );
 
     const myRestAPI = new apigw.RestApi(this, "MyRestAPI");
+    const allowOrigin = "https://dv0uvvryjj7u9.cloudfront.net/";
 
     const options: apigw.IntegrationOptions = {
       credentialsRole: apigwRole,
@@ -45,6 +46,13 @@ export class ServicesStack extends cdk.Stack {
         {
           statusCode: "200",
           responseTemplates: { "application/json": "" },
+          responseParameters: {
+            "method.response.header.Access-Control-Allow-Headers":
+              "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+            "method.response.header.Access-Control-Allow-Origin": `'${allowOrigin}'`,
+            "method.response.header.Access-Control-Allow-Methods":
+              "'POST,OPTIONS'",
+          },
         },
       ],
     };
@@ -56,12 +64,25 @@ export class ServicesStack extends cdk.Stack {
       options,
     });
 
+    // OPTIONS method on root resource for preflight request from client
     myRestAPI.root.addCorsPreflight({
-      allowOrigins: ["*"],
-      allowMethods: ["POST"],
+      allowOrigins: [allowOrigin],
+      allowMethods: ["POST", "OPTIONS"],
+      allowHeaders: apigw.Cors.DEFAULT_HEADERS,
     });
+
+    // POST method for sending lab-reports to ApiGateway
     myRestAPI.root.addMethod("POST", eventBridgeInteg, {
-      methodResponses: [{ statusCode: "200" }],
+      methodResponses: [
+        {
+          statusCode: "200",
+          responseParameters: {
+            "method.response.header.Access-Control-Allow-Headers": true,
+            "method.response.header.Access-Control-Allow-Origin": true,
+            "method.response.header.Access-Control-Allow-Methods": true,
+          },
+        },
+      ],
     });
 
     /* ***************************************************************************** */
