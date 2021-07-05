@@ -34,7 +34,7 @@ This AWS CDK App deploys the backend infrastructure for Project 14D. The app con
 
 It contanis the AWS services for delivering the lab report. It has the following constructs:
 
-- An API Gateway Rest API with CORS enabled which puts the lab report data as an event on EventBridge default bus
+- An API Gateway Rest API with [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) enabled which puts the lab report data as an event on EventBridge default bus
 - An EventBridge rule to publish a message (containing the lab report data) on an SNS topic
 - An email and a phone number subscribers to the SNS topic
 
