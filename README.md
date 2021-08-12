@@ -38,6 +38,10 @@ It contanis the AWS services for delivering the lab report. It has the following
 - An EventBridge rule to publish a message (containing the lab report data) on an SNS topic
 - An email and a phone number subscribers to the SNS topic
 
+<p align="center">
+  <img alt="Architecture Diagram" src="./backend/P14d AWS Architecture.jpg" />
+</p>
+
 ### Stack 2: CloudFront Distribution and S3 Bucket
 
 It contains the infrastructure to deploy frontend client. It has the following constructs:

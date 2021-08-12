@@ -18,6 +18,7 @@ on:
       - "backend/.gitignore"
       - "backend/.npmignore"
       - "backend/README.md"
+      - "backend/P14d AWS Architecture.jpg"
       - ".github/workflows/deployBackendServicesStack.yml"
       - ".github/workflows/deployGatsbyAppToS3.yml"
   pull_request:
@@ -30,6 +31,7 @@ on:
       - "backend/.gitignore"
       - "backend/.npmignore"
       - "backend/README.md"
+      - "backend/P14d AWS Architecture.jpg"
       - ".github/workflows/deployBackendServicesStack.yml"
       - ".github/workflows/deployGatsbyAppToS3.yml"
 
